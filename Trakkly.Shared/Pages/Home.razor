@@ -3,11 +3,20 @@
 @inject IFormFactor FormFactor
 @using MudBlazor
 @using Trakkly.Shared.Components
+@using Trakkly.Shared.Models
 
-<TimerCard>
+<TimerCard Project=@project>
     
 </TimerCard>
 
 @code {
-    
+
+    private TimerProject project;
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        project = new TimerProject();
+
+    }
+
 }

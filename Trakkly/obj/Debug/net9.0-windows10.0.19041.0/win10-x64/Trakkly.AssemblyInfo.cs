@@ -17,7 +17,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Trakkly")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+e3c1771d6312b3a67a9f6f29398ea3171df4825c")]
 [assembly: System.Reflection.AssemblyProductAttribute("Trakkly")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Trakkly")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
