@@ -1,0 +1,28 @@
+@using MudBlazor
+
+<MudCard Outlined="true" Class="mud-card-style rounded-lg">
+    <MudCardHeader Style="width:100%; justify-content:space-between">
+        <MudText Align="Align.Start">Name</MudText>
+        <MudIconButton Color="_color" 
+                       Icon="@Icons.Material.Filled.Star" aria-label="favorite" />
+
+    </MudCardHeader>
+
+    <MudCardMedia Image="images/door.jpg" Height="200" />
+
+    <MudCardContent>
+        <MudText Typo="Typo.h5">Name</MudText>
+        <MudText Typo="Typo.body2">Description</MudText>
+        <MudText Typo="Typo.caption">Type: </MudText>
+    </MudCardContent>
+
+    <MudCardActions>
+        <MudButton Variant="Variant.Text" Color="Color.Tertiary">Share</MudButton>
+        <MudButton Variant="Variant.Text" Color="Color.Tertiary">Learn more</MudButton>
+    </MudCardActions>
+</MudCard>
+
+@code {
+    private MudBlazor.Color _color = Color.Default;
+
+}

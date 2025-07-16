@@ -1,0 +1,126 @@
+0:00:00 Microsoft.DeleteProfileHelper.CleanUpDeletedProfiles
+0:00:00 Microsoft.SessionDataDeleter.DeleteInterestGroupData
+0:00:00 Microsoft.SessionDataDeleter.ClearPermissionsCache
+0:00:00 Microsoft.SessionDataDeleter.DeleteCdmStorageManagerData
+0:00:00 Microsoft.SessionDataDeleter.ClearQuotaManagedData
+0:00:00 Microsoft.SessionDataDeleter.ClearLocalStorage
+0:00:00 Microsoft.SessionDataDeleter.ClearSessionStorage
+0:00:00 Microsoft.SessionDataDeleter.ClearAttributionManagerData
+0:00:00 Microsoft.SessionDataDeleter.ClearAggregationData
+0:00:00 Microsoft.SessionDataDeleter.ClearPrivateAggregationData
+0:00:00 Microsoft.SessionDataDeleter.DeleteAllDeviceSessions
+0:00:00 Microsoft.SessionDataDeleter.DeleteInterestGroupData
+0:00:00 Microsoft.SessionDataDeleter.ClearPermissionsCache
+0:00:00 Microsoft.SessionDataDeleter.DeleteCdmStorageManagerData
+0:00:00 Microsoft.SessionDataDeleter.ClearQuotaManagedData
+0:00:00 Microsoft.SessionDataDeleter.ClearLocalStorage
+0:00:00 Microsoft.SessionDataDeleter.ClearSessionStorage
+0:00:00 Microsoft.SessionDataDeleter.ClearAttributionManagerData
+0:00:00 Microsoft.SessionDataDeleter.ClearAggregationData
+0:00:00 Microsoft.SessionDataDeleter.ClearPrivateAggregationData
+0:00:00 Microsoft.SessionDataDeleter.DeleteAllDeviceSessions
+0:00:00 Microsoft.NewBrowser_Popup
+0:00:00 Microsoft.BrowserList.AddBrowser
+0:00:00 Browser1 Insert active Tab1 at 0
+0:00:00 Tab1 StartNav1 #auto_toplevel
+0:00:00 Tab1 FinishNav1
+0:00:00 Tab1 PageLoad
+0:00:00 Tab1 StartNav2 #typed
+0:00:01 Tab1 FinishNav2
+0:00:01 Tab1 PageLoad
+0:00:16 Tab1 StartNav3 #renderer-user #link
+0:00:16 Tab1 FinishNav3
+0:00:17 Tab1 StartNav4 #renderer-user #link
+0:00:17 Tab1 FinishNav4
+0:00:18 Tab1 StartNav5 #renderer-user #link
+0:00:18 Tab1 FinishNav5
+0:01:47 Reload
+0:01:47 Tab1 StartNav6 #reload
+0:01:47 Tab1 FinishNav6
+0:01:47 Tab1 PageLoad
+0:00:00 Startup
+0:00:00 Microsoft.DeleteProfileHelper.CleanUpEphemeralProfiles
+0:00:00 Microsoft.DeleteProfileHelper.CleanUpDeletedProfiles
+0:00:00 Microsoft.NewBrowser_Popup
+0:00:00 Microsoft.BrowserList.AddBrowser
+0:00:00 Browser1 Insert active Tab1 at 0
+0:00:00 Tab1 StartNav1 #auto_toplevel
+0:00:00 Tab1 FinishNav1
+0:00:00 Tab1 PageLoad
+0:00:00 Tab1 StartNav2 #typed
+0:00:00 Tab1 FinishNav2
+0:00:01 Tab1 PageLoad
+0:06:26 Microsoft.UnloadController.IsUnclosableApp_IsNotWebApp
+0:00:00 Startup
+0:00:00 Microsoft.DeleteProfileHelper.CleanUpEphemeralProfiles
+0:00:00 Microsoft.DeleteProfileHelper.CleanUpDeletedProfiles
+0:00:00 Microsoft.NewBrowser_Popup
+0:00:00 Microsoft.BrowserList.AddBrowser
+0:00:00 Browser1 Insert active Tab1 at 0
+0:00:00 Tab1 StartNav1 #auto_toplevel
+0:00:00 Tab1 FinishNav1
+0:00:00 Tab1 PageLoad
+0:00:00 Tab1 StartNav2 #typed
+0:00:00 Tab1 FinishNav2
+0:00:00 Tab1 PageLoad
+0:00:11 DevTools_ToggleWindow
+0:00:11 DevTools_InspectRenderer
+0:00:11 Microsoft.NewBrowser_DevTools
+0:00:11 Microsoft.BrowserList.AddBrowser
+0:00:11 Browser2 Insert active Tab2 at 0
+0:00:11 Tab2 FinishNav3
+0:00:11 Tab2 PageLoad
+0:00:12 Microsoft.DevTools_NotECCohort
+0:00:12 Microsoft.DevTools_NotECCohort
+0:00:12 Microsoft.DevTools_NotECCohort
+0:00:12 Microsoft.DevTools_NotECCohort
+0:00:12 Microsoft.DevTools_NotECCohort
+0:00:46 DevTools_ToggleWindow
+0:00:54 Microsoft.DevTools_NotECCohort
+0:00:54 Microsoft.DevTools_NotECCohort
+0:01:44 Widget Closed: TooltipAura
+0:01:53 Widget Closed: StatusBubble
+0:02:02 Tab1 StartNav4 #renderer-user #link
+0:02:02 Tab1 FinishNav4
+0:02:04 Tab1 StartNav5 #renderer-user #link
+0:02:04 Tab1 FinishNav5
+0:02:08 Tab1 StartNav6 #renderer-user #link
+0:02:08 Tab1 FinishNav6
+0:02:32 Reload
+0:02:32 Tab1 StartNav7 #reload
+0:02:32 Tab1 FinishNav7
+0:02:32 Tab1 PageLoad
+0:03:26 Microsoft.UnloadController.IsUnclosableApp_IsNotWebApp
+0:00:00 Startup
+0:00:00 Microsoft.DeleteProfileHelper.CleanUpEphemeralProfiles
+0:00:00 Microsoft.DeleteProfileHelper.CleanUpDeletedProfiles
+0:00:00 Microsoft.SessionDataDeleter.DeleteInterestGroupData
+0:00:00 Microsoft.SessionDataDeleter.ClearPermissionsCache
+0:00:00 Microsoft.SessionDataDeleter.DeleteCdmStorageManagerData
+0:00:00 Microsoft.SessionDataDeleter.ClearQuotaManagedData
+0:00:00 Microsoft.SessionDataDeleter.ClearLocalStorage
+0:00:00 Microsoft.SessionDataDeleter.ClearSessionStorage
+0:00:00 Microsoft.SessionDataDeleter.ClearAttributionManagerData
+0:00:00 Microsoft.SessionDataDeleter.ClearAggregationData
+0:00:00 Microsoft.SessionDataDeleter.ClearPrivateAggregationData
+0:00:00 Microsoft.SessionDataDeleter.DeleteAllDeviceSessions
+0:00:00 Microsoft.SessionDataDeleter.DeleteInterestGroupData
+0:00:00 Microsoft.SessionDataDeleter.ClearPermissionsCache
+0:00:00 Microsoft.SessionDataDeleter.DeleteCdmStorageManagerData
+0:00:00 Microsoft.SessionDataDeleter.ClearQuotaManagedData
+0:00:00 Microsoft.SessionDataDeleter.ClearLocalStorage
+0:00:00 Microsoft.SessionDataDeleter.ClearSessionStorage
+0:00:00 Microsoft.SessionDataDeleter.ClearAttributionManagerData
+0:00:00 Microsoft.SessionDataDeleter.ClearAggregationData
+0:00:00 Microsoft.SessionDataDeleter.ClearPrivateAggregationData
+0:00:00 Microsoft.SessionDataDeleter.DeleteAllDeviceSessions
+0:00:00 Microsoft.NewBrowser_Popup
+0:00:00 Microsoft.BrowserList.AddBrowser
+0:00:00 Browser1 Insert active Tab1 at 0
+0:00:00 Tab1 StartNav1 #auto_toplevel
+0:00:00 Tab1 FinishNav1
+0:00:00 Tab1 PageLoad
+0:00:00 Tab1 StartNav2 #typed
+0:00:00 Tab1 FinishNav2
+0:00:00 Tab1 PageLoad
+0:00:27 Microsoft.UnloadController.IsUnclosableApp_IsNotWebApp
