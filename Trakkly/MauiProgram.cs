@@ -2,6 +2,7 @@
 using MudBlazor.Services;
 using Trakkly.Shared.Services;
 using Trakkly.Services;
+using Trakkly.Shared.Models;
 
 namespace Trakkly;
 
@@ -19,13 +20,14 @@ public static class MauiProgram
 
         builder.Services.AddMauiBlazorWebView();
         builder.Services.AddMudServices();
-
+        builder.Services.AddSingleton<IProjectStorage, MauiProjectStorage>();
+        builder.Services.AddSingleton<ProjectManager>();
 
 #if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();
         builder.Logging.AddDebug();
 #endif
-
+        
         return builder.Build();
     }
 }

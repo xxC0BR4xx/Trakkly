@@ -1,0 +1,46 @@
+.timer-card-container {
+    display: flex;
+    height: 100%;
+    margin-bottom: 1rem;
+}
+
+::deep .mud-card {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+}
+
+::deep .mud-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+}
+
+.timer-display {
+    font-family: 'Courier New', monospace;
+    color: var(--mud-palette-primary);
+    letter-spacing: 2px;
+    min-height: 3rem;
+}
+
+::deep .mud-card-content {
+    flex: 1;
+    overflow-y: auto;
+}
+
+::deep .mud-paper {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.button-group {
+    margin-top: 1rem;
+}
+
+::deep .button-group .mud-button {
+    text-transform: none;
+    font-weight: 500;
+}
+
+::deep .mud-expansion-panel {
+    background-color: rgba(0, 0, 0, 0.02);
+}

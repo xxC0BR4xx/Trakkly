@@ -1,3 +1,4 @@
+using Trakkly.Shared.Models;
 using Trakkly.Web.Components;
 using Trakkly.Shared.Services;
 using Trakkly.Web.Services;
@@ -10,6 +11,8 @@ builder.Services.AddRazorComponents()
 
 // Add device-specific services used by the Trakkly.Shared project
 builder.Services.AddSingleton<IFormFactor, FormFactor>();
+builder.Services.AddScoped<IProjectStorage, BrowserProjectStorage>();
+builder.Services.AddScoped<ProjectManager>();
 
 var app = builder.Build();
 
@@ -29,6 +32,7 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
+
 
 app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()

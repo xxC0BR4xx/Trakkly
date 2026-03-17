@@ -52,12 +52,12 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName>ScopedCss</AssetTraitName>
       <AssetTraitValue>ApplicationBundle</AssetTraitValue>
-      <Fingerprint>0vyv2ys7jq</Fingerprint>
-      <Integrity>PEyIrIQXCEkBkSKeqSYQZJRMgSegqN6PKeV2Gscrt5k=</Integrity>
+      <Fingerprint>q0j6hxxxjx</Fingerprint>
+      <Integrity>NjWKeWdO2aXqU6ZmyecgUp2q7bIdrbXnEufHpmYxjAY=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <FileLength>79</FileLength>
-      <LastWriteTime>Tue, 15 Jul 2025 19:21:29 GMT</LastWriteTime>
+      <LastWriteTime>Tue, 17 Mar 2026 19:57:44 GMT</LastWriteTime>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\Trakkly.styles.css'))</OriginalItemSpec>
     </StaticWebAsset>
   </ItemGroup>

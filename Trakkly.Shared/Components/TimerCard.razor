@@ -1,48 +1,172 @@
 @using MudBlazor
 @using Trakkly.Shared.Models
 @implements IDisposable
+@inject ProjectManager ProjectManager
 
-<MudCard Outlined="true" Class="mud-card-style rounded-lg">
-    <MudCardHeader Style="width:100%; justify-content:space-between">
-        <MudText Align="Align.Start">Project</MudText>
-        <MudIconButton Color="_color"
-                       Icon="@Icons.Material.Filled.Edit"
-                       aria-label="edit" />
+
+<div class="timer-card-container">
+<MudCard Elevation="2" Class="mud-card-elevated rounded-lg h-100">
+    <MudCardHeader Class="pb-2">
+        <div class="w-100 d-flex justify-content-between align-items-center">
+            <MudTextField Variant="Variant.Text" 
+                          Placeholder="Project name"
+                          @bind-Value="@Project.Name" 
+                          Class="flex-grow-1"
+                          Margin="Margin.Dense" />
+            <MudIconButton Color="Color.Default"
+                           Icon="@Icons.Material.Filled.Edit"
+                           Size="Size.Small" />
+        </div>
     </MudCardHeader>
 
-    <MudCardMedia Image="images/door.jpg" Height="200" />
+    <MudCardContent Class="pa-3">
+        <MudStack Spacing="2" Class="mb-3">
+            <MudTextField Variant="Variant.Outlined" 
+                          Placeholder="Description"
+                          @bind-Value="@Project.Description" 
+                          Lines="2"
+                          Margin="Margin.Dense" />
+        </MudStack>
 
-    <MudCardContent>
-        <MudText Typo="Typo.h5">Name: @Project.Name</MudText>
-        <MudText Typo="Typo.h5">ID: @Project.Id</MudText>
-        <MudText Typo="Typo.body2">Description: @Project.Description</MudText>
-        <MudText Typo="Typo.caption">IsRunning: @Project.IsRunning</MudText>
-        <MudText Typo="Typo.body1">Elapsed: @ElapsedDisplay</MudText>
+        <MudDivider Class="my-2" />
 
-        <MudIconButton Icon="@EvaluateStatus(Project)"
-                       Color="Color.Tertiary"
+        <!-- Main Timer Display -->
+        <MudStack AlignItems="AlignItems.Center" Spacing="2" Class="mb-4 py-3">
+            <MudText Typo="Typo.h3" Class="timer-display font-weight-bold">
+                @(UsePomodoroMode ? GetPomodoroDisplay() : ElapsedDisplay)
+            </MudText>
+
+            @if (UsePomodoroMode && Project.IsRunning)
+            {
+                <MudChip T="string" Color="@GetPomodoroChipColor()" 
+                         Icon="@(Project.CurrentPhase == PomodoroPhase.Work ? Icons.Material.Filled.FitnessCenter : Icons.Material.Filled.Coffee)"
+                         Variant="Variant.Filled"
+                         Size="Size.Medium">
+                    @(Project.CurrentPhase == PomodoroPhase.Work ? "Work Phase" : "Break Phase")
+                </MudChip>
+            }
+        </MudStack>
+
+        <!-- Statistics Row -->
+        <MudGrid Spacing="1" Class="mb-3">
+            <MudItem xs="12" sm="6">
+                <MudPaper Class="pa-2 bg-surface rounded text-center">
+                    <MudText Typo="Typo.caption" style="opacity: 0.6;">Today</MudText>
+                    <MudText Typo="Typo.body2" Class="font-weight-bold">@FormatTimeSpan(Project.GetElapsedToday())</MudText>
+                </MudPaper>
+            </MudItem>
+            <MudItem xs="12" sm="6">
+                <MudPaper Class="pa-2 bg-surface rounded text-center">
+                    <MudText Typo="Typo.caption" style="opacity: 0.6;">This Week</MudText>
+                    <MudText Typo="Typo.body2" Class="font-weight-bold">@FormatTimeSpan(Project.GetElapsedThisWeek())</MudText>
+                </MudPaper>
+            </MudItem>
+            <MudItem xs="12" sm="6">
+                <MudPaper Class="pa-2 bg-surface rounded text-center">
+                    <MudText Typo="Typo.caption" style="opacity: 0.6;">This Month</MudText>
+                    <MudText Typo="Typo.body2" Class="font-weight-bold">@FormatTimeSpan(Project.GetElapsedThisMonth())</MudText>
+                </MudPaper>
+            </MudItem>
+            <MudItem xs="12" sm="6">
+                <MudPaper Class="pa-2 bg-surface rounded text-center">
+                    <MudText Typo="Typo.caption" style="opacity: 0.6;">Total</MudText>
+                    <MudText Typo="Typo.body2" Class="font-weight-bold">@FormatTimeSpan(Project.Elapsed)</MudText>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+
+        <MudDivider Class="my-2" />
+
+        <!-- Pomodoro Mode Toggle -->
+        <MudStack Row="true" AlignItems="AlignItems.Center" Class="mb-3">
+            <MudSwitch @bind-Value="@Project.UsePomodoroMode" 
+                       Color="Color.Primary"
+                       T="bool" />
+            <MudText Typo="Typo.body2">Pomodoro Mode</MudText>
+        </MudStack>
+
+        <!-- Pomodoro Settings -->
+        @if (Project.UsePomodoroMode)
+        {
+            <MudExpansionPanel Text="Pomodoro Settings" Class="mb-3">
+                <MudGrid Spacing="2">
+                    <MudItem xs="12" sm="6">
+                        <MudNumericField @bind-Value="@Project.WorkDurationMinutes"
+                                        Label="Work Duration (min)"
+                                        Min="1"
+                                        Max="60"
+                                        Disabled="@Project.IsRunning" />
+                    </MudItem>
+                    <MudItem xs="12" sm="6">
+                        <MudNumericField @bind-Value="@Project.BreakDurationMinutes"
+                                        Label="Break Duration (min)"
+                                        Min="1"
+                                        Max="30"
+                                        Disabled="@Project.IsRunning" />
+                    </MudItem>
+                </MudGrid>
+            </MudExpansionPanel>
+        }
+
+        <!-- Control Buttons -->
+        <MudStack Row="true" Spacing="1" Class="button-group" Justify="Justify.Center">
+            <MudButton Variant="Variant.Filled" 
+                       Color="@(Project.IsRunning ? Color.Warning : Color.Success)"
+                       StartIcon="@EvaluateStatus(Project)"
                        OnClick="@(() => ChangeRunningState(Project))"
-                       aria-label="start-pause" />
+                       FullWidth="true"
+                       Size="Size.Large">
+                @(Project.IsRunning ? "Pause" : "Start")
+            </MudButton>
 
-        <MudIconButton Icon="@Icons.Material.Filled.RestartAlt"
+            @if (UsePomodoroMode && Project.IsRunning)
+            {
+                <MudButton Variant="Variant.Filled" 
+                           Color="Color.Secondary"
+                           Icon="@Icons.Material.Filled.SkipNext"
+                           OnClick="@SkipPomodoroPhase"
+                           Size="Size.Large">
+                    Skip
+                </MudButton>
+            }
+
+            <MudButton Variant="Variant.Outlined" 
                        Color="Color.Error"
+                       Icon="@Icons.Material.Filled.RestartAlt"
                        OnClick="@(() => ResetProject(Project))"
-                       aria-label="reset" />
+                       Size="Size.Large">
+                Reset
+            </MudButton>
+        </MudStack>
     </MudCardContent>
-
-    <MudCardActions>
-        <MudButton Variant="Variant.Text" Color="Color.Tertiary">Share</MudButton>
-        <MudButton Variant="Variant.Text" Color="Color.Tertiary">Learn more</MudButton>
-    </MudCardActions>
 </MudCard>
+</div>
 
 @code {
-    private MudBlazor.Color _color = Color.Default;
     private System.Threading.Timer? _timer;
+    private bool UsePomodoroMode => Project?.UsePomodoroMode ?? false;
 
     [Parameter] public TimerProject Project { get; set; } = default!;
 
-    private string ElapsedDisplay => Project?.Elapsed.ToString(@"hh\:mm\:ss\.fff") ?? "00:00:00:000";
+    private string ElapsedDisplay => Project?.Elapsed.ToString(@"hh\:mm\:ss") ?? "00:00:00";
+
+    private string GetPomodoroDisplay()
+    {
+        var remaining = Project?.GetPomodoroTimeRemaining() ?? TimeSpan.Zero;
+        return remaining.ToString(@"mm\:ss");
+    }
+
+    private string FormatTimeSpan(TimeSpan ts)
+    {
+        if (ts.TotalHours >= 1)
+            return ts.ToString(@"h\:mm\:ss");
+        return ts.ToString(@"mm\:ss");
+    }
+
+    private Color GetPomodoroChipColor()
+    {
+        return Project?.CurrentPhase == PomodoroPhase.Work ? Color.Error : Color.Success;
+    }
 
     private string EvaluateStatus(TimerProject? project)
     {
@@ -59,12 +183,24 @@
         if (project.IsRunning)
         {
             project.StopTimer();
+            _ = ProjectManager.SaveAsync();
         }
         else
         {
+            foreach (var p in ProjectManager.Projects)
+            {
+                p.StopTimer();
+            }
+
             project.StartTimer();
         }
 
+        StateHasChanged();
+    }
+
+    private void SkipPomodoroPhase()
+    {
+        Project?.AdvancePomodoroPhase();
         StateHasChanged();
     }
 
@@ -76,9 +212,9 @@
             {
                 InvokeAsync(StateHasChanged);
             }
-        }, null, 0, 1);
+        }, null, TimeSpan.FromMilliseconds(500), TimeSpan.FromMilliseconds(500));
     }
-    
+
     private void ResetProject(TimerProject project)
     {
         project.ResetTimer();
@@ -90,3 +226,4 @@
         _timer?.Dispose();
     }
 }
+

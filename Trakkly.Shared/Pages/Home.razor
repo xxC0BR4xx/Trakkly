@@ -4,19 +4,66 @@
 @using MudBlazor
 @using Trakkly.Shared.Components
 @using Trakkly.Shared.Models
+@inject ProjectManager ProjectManager
 
-<TimerCard Project=@project>
-    
-</TimerCard>
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="py-6">
+    <MudStack Spacing="3">
+        <MudStack Row="true" AlignItems="AlignItems.Center" Justify="Justify.SpaceBetween" Class="mb-4">
+            <MudText Typo="Typo.h4" Class="font-weight-bold">Project Timers</MudText>
+            <MudButton Variant="Variant.Filled" 
+                       Color="Color.Primary"
+                       StartIcon="@Icons.Material.Filled.AddCircle"
+                       OnClick="AddNewProject"
+                       Size="Size.Large">
+                New Project
+            </MudButton>
+        </MudStack>
+
+        @if (ProjectManager.Projects.Count == 0)
+        {
+            <MudPaper Class="pa-8 text-center">
+                <MudIcon Icon="@Icons.Material.Filled.School" Class="mx-auto" style="font-size: 4rem; opacity: 0.5;"></MudIcon>
+                <MudText Typo="Typo.h6" Class="mt-4">No projects yet</MudText>
+                <MudText Typo="Typo.body1" style="opacity: 0.6;">Create your first project to start tracking your study time</MudText>
+            </MudPaper>
+        }
+        else
+        {
+            <MudGrid Spacing="2">
+                @foreach (var project in ProjectManager.Projects)
+                {
+                    <MudItem xs="12" sm="6" md="4" lg="3">
+                        <TimerCard Project="@project"></TimerCard>
+                    </MudItem>
+                }
+            </MudGrid>
+        }
+    </MudStack>
+</MudContainer>
 
 @code {
-
-    private TimerProject project;
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        base.OnInitialized();
-        project = new TimerProject();
+        ProjectManager.OnProjectsChanged += StateHasChanged;
 
+        if (!ProjectManager.IsInitialized)
+            await ProjectManager.LoadAsync();
     }
 
+    private void AddNewProject()
+    {
+        var newProject = new TimerProject
+        {
+            Name = $"Project {ProjectManager.Projects.Count + 1}",
+            Description = "Enter description..."
+        };
+        ProjectManager.Projects.Add(newProject);
+        _ = ProjectManager.SaveAsync();
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        ProjectManager.OnProjectsChanged -= StateHasChanged;
+    }
 }

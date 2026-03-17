@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ov06R/Qds9o=",
+  "dgSpecHash": "tIQFdAWcjhw=",
   "success": true,
   "projectFilePath": "C:\\Users\\jelle\\RiderProjects\\Trakkly\\Trakkly.Web.Client\\Trakkly.Web.Client.csproj",
   "expectedPackageFiles": [
@@ -29,10 +29,13 @@
     "C:\\Users\\jelle\\.nuget\\packages\\microsoft.extensions.primitives\\9.0.1\\microsoft.extensions.primitives.9.0.1.nupkg.sha512",
     "C:\\Users\\jelle\\.nuget\\packages\\microsoft.jsinterop\\9.0.1\\microsoft.jsinterop.9.0.1.nupkg.sha512",
     "C:\\Users\\jelle\\.nuget\\packages\\microsoft.jsinterop.webassembly\\9.0.0\\microsoft.jsinterop.webassembly.9.0.0.nupkg.sha512",
-    "C:\\Users\\jelle\\.nuget\\packages\\microsoft.net.illink.tasks\\9.0.5\\microsoft.net.illink.tasks.9.0.5.nupkg.sha512",
-    "C:\\Users\\jelle\\.nuget\\packages\\microsoft.net.sdk.webassembly.pack\\9.0.5\\microsoft.net.sdk.webassembly.pack.9.0.5.nupkg.sha512",
+    "C:\\Users\\jelle\\.nuget\\packages\\microsoft.net.illink.tasks\\9.0.14\\microsoft.net.illink.tasks.9.0.14.nupkg.sha512",
+    "C:\\Users\\jelle\\.nuget\\packages\\microsoft.net.sdk.webassembly.pack\\10.0.4\\microsoft.net.sdk.webassembly.pack.10.0.4.nupkg.sha512",
     "C:\\Users\\jelle\\.nuget\\packages\\mudblazor\\8.9.0\\mudblazor.8.9.0.nupkg.sha512",
-    "C:\\Users\\jelle\\.nuget\\packages\\microsoft.netcore.app.runtime.mono.browser-wasm\\9.0.5\\microsoft.netcore.app.runtime.mono.browser-wasm.9.0.5.nupkg.sha512"
+    "C:\\Users\\jelle\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\9.0.14\\microsoft.windowsdesktop.app.ref.9.0.14.nupkg.sha512",
+    "C:\\Users\\jelle\\.nuget\\packages\\microsoft.netcore.app.ref\\9.0.14\\microsoft.netcore.app.ref.9.0.14.nupkg.sha512",
+    "C:\\Users\\jelle\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\9.0.14\\microsoft.aspnetcore.app.ref.9.0.14.nupkg.sha512",
+    "C:\\Users\\jelle\\.nuget\\packages\\microsoft.netcore.app.runtime.mono.browser-wasm\\9.0.14\\microsoft.netcore.app.runtime.mono.browser-wasm.9.0.14.nupkg.sha512"
   ],
   "logs": []
 }

@@ -1,6 +1,286 @@
 @page "/Summary"
-<h3>Summary</h3>
+@using MudBlazor
+@using Trakkly.Shared.Models
+@inject ProjectManager ProjectManager
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="py-6">
+    <MudStack Spacing="4">
+        <!-- Header -->
+        <MudStack Row="true" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center" Class="mb-4">
+            <MudText Typo="Typo.h4" Class="font-weight-bold">Study Statistics</MudText>
+
+            <MudStack Row="true" Spacing="2" AlignItems="AlignItems.Center">
+                <MudSelect T="ViewMode" Label="View Mode" ValueChanged="OnSelectedViewChanged" Class="min-w-40">
+                    <MudSelectItem Value="ViewMode.Daily">Daily</MudSelectItem>
+                    <MudSelectItem Value="ViewMode.Weekly">Weekly</MudSelectItem>
+                    <MudSelectItem Value="ViewMode.Monthly">Monthly</MudSelectItem>
+                </MudSelect>
+            </MudStack>
+        </MudStack>
+
+        <!-- Summary Cards -->
+        <MudGrid Spacing="2">
+            <MudItem xs="12" sm="6" md="3">
+                <MudPaper Class="pa-4 text-center h-100">
+                    <MudIcon Icon="@Icons.Material.Filled.Schedule" Class="mx-auto" style="font-size: 2rem; color: var(--mud-palette-primary);"></MudIcon>
+                    <MudText Typo="Typo.caption" style="opacity: 0.6;" Class="mt-2">Total Time</MudText>
+                    <MudText Typo="Typo.h5" Class="font-weight-bold">@FormatTimeSpan(GetTotalTime())</MudText>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="3">
+                <MudPaper Class="pa-4 text-center h-100">
+                    <MudIcon Icon="@Icons.Material.Filled.Today" Class="mx-auto" style="font-size: 2rem; color: var(--mud-palette-success);"></MudIcon>
+                    <MudText Typo="Typo.caption" style="opacity: 0.6;" Class="mt-2">Today</MudText>
+                    <MudText Typo="Typo.h5" Class="font-weight-bold">@FormatTimeSpan(GetTodayTime())</MudText>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="3">
+                <MudPaper Class="pa-4 text-center h-100">
+                    <MudIcon Icon="@Icons.Material.Filled.DateRange" Class="mx-auto" style="font-size: 2rem; color: var(--mud-palette-info);"></MudIcon>
+                    <MudText Typo="Typo.caption" style="opacity: 0.6;" Class="mt-2">This Week</MudText>
+                    <MudText Typo="Typo.h5" Class="font-weight-bold">@FormatTimeSpan(GetThisWeekTime())</MudText>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12" sm="6" md="3">
+                <MudPaper Class="pa-4 text-center h-100">
+                    <MudIcon Icon="@Icons.Material.Filled.CalendarMonth" Class="mx-auto" style="font-size: 2rem; color: var(--mud-palette-warning);"></MudIcon>
+                    <MudText Typo="Typo.caption" style="opacity: 0.6;" Class="mt-2">This Month</MudText>
+                    <MudText Typo="Typo.h5" Class="font-weight-bold">@FormatTimeSpan(GetThisMonthTime())</MudText>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
+
+        <!-- Charts -->
+        @if (Series.Count > 0)
+        {
+            <MudPaper Class="pa-6">
+                <MudText Typo="Typo.h6" Class="mb-4">Time Breakdown</MudText>
+                <MudChart ChartType="ChartType.Bar" 
+                          ChartSeries="@Series" 
+                          AxisChartOptions="_axisChartOptions"
+                          XAxisLabels="@XAxisLabels" 
+                          Height="400px" />
+                <MudText Typo="Typo.caption" style="opacity: 0.6;" Class="mt-2">
+                    Time is displayed in minutes. Break time is excluded from statistics.
+                </MudText>
+            </MudPaper>
+
+            <!-- Pie Chart by Project -->
+            <MudPaper Class="pa-6">
+                <MudText Typo="Typo.h6" Class="mb-4">Time by Project</MudText>
+                <MudChart ChartType="ChartType.Pie" 
+                          ChartSeries="@PieChartSeries" 
+                          XAxisLabels="@ProjectNames" 
+                          Height="350px" />
+            </MudPaper>
+        }
+        else
+        {
+            <MudPaper Class="pa-8 text-center">
+                <MudIcon Icon="@Icons.Material.Filled.Analytics" Class="mx-auto" style="font-size: 4rem; opacity: 0.5;"></MudIcon>
+                <MudText Typo="Typo.h6" Class="mt-4">No data yet</MudText>
+                <MudText Typo="Typo.body1" style="opacity: 0.6;">Start tracking time to see statistics</MudText>
+            </MudPaper>
+        }
+
+        <!-- Detailed Table -->
+        @if (Projects.Count > 0)
+        {
+            <MudPaper Class="pa-6">
+                <MudText Typo="Typo.h6" Class="mb-4">Project Details</MudText>
+                <MudTable Items="@GetProjectDetails()" Hover="true">
+                    <HeaderContent>
+                        <MudTh>Project</MudTh>
+                        <MudTh Align="Align.Right">Today</MudTh>
+                        <MudTh Align="Align.Right">This Week</MudTh>
+                        <MudTh Align="Align.Right">This Month</MudTh>
+                        <MudTh Align="Align.Right">Total</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="Project">
+                            <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="1">
+                                <div style="width: 12px; height: 12px; border-radius: 3px; background-color: @GetProjectColor(context.Project);"></div>
+                                <MudText>@context.Project.Name</MudText>
+                            </MudStack>
+                        </MudTd>
+                        <MudTd DataLabel="Today" Align="Align.Right">@FormatTimeSpan(context.Project.GetElapsedToday())</MudTd>
+                        <MudTd DataLabel="This Week" Align="Align.Right">@FormatTimeSpan(context.Project.GetElapsedThisWeek())</MudTd>
+                        <MudTd DataLabel="This Month" Align="Align.Right">@FormatTimeSpan(context.Project.GetElapsedThisMonth())</MudTd>
+                        <MudTd DataLabel="Total" Align="Align.Right">
+                            <strong>@FormatTimeSpan(context.Project.Elapsed)</strong>
+                        </MudTd>
+                    </RowTemplate>
+                </MudTable>
+            </MudPaper>
+        }
+    </MudStack>
+</MudContainer>
 
 @code {
-    
+    private ViewMode selectedView = ViewMode.Daily;
+    private List<TimerProject> Projects = new();
+    private List<ChartSeries> Series = new();
+    private List<ChartSeries> PieChartSeries = new();
+    private string[] XAxisLabels = Array.Empty<string>();
+    private string[] ProjectNames = Array.Empty<string>();
+    private DateTime? _date = DateTime.Today;
+    private readonly AxisChartOptions _axisChartOptions = new() { MatchBoundsToSize = true, StackedBarWidthRatio = 0.7 };
+    private readonly string[] _colors = new[] 
+    { 
+        "#3f51b5", "#f50057", "#00bcd4", "#4caf50", "#ff9800", "#9c27b0",
+        "#2196f3", "#e91e63", "#009688", "#8bc34a", "#ffc107", "#673ab7"
+    };
+
+    public enum ViewMode
+    {
+        Daily,
+        Weekly,
+        Monthly
+    }
+
+    protected override void OnInitialized()
+    {
+        Projects = ProjectManager.Projects;
+        UpdateChart();
+    }
+
+    private void UpdateChart()
+    {
+        Series = new List<ChartSeries>();
+        var allKeys = new SortedSet<string>();
+        var summaries = new List<(string Name, Dictionary<string, TimeSpan> Data)>();
+
+        var selectedDate = _date ?? DateTime.Today;
+
+        foreach (var project in Projects)
+        {
+            Dictionary<string, TimeSpan> data = selectedView switch
+            {
+                ViewMode.Daily => GetDailySummary(project, selectedDate),
+                ViewMode.Weekly => GetWeeklySummary(project),
+                ViewMode.Monthly => GetMonthlySummary(project),
+                _ => new()
+            };
+
+            if (data.Count > 0)
+            {
+                allKeys.UnionWith(data.Keys);
+                summaries.Add((project.Name, data));
+            }
+        }
+
+        XAxisLabels = allKeys.ToArray();
+
+        foreach (var (name, data) in summaries)
+        {
+            var series = new ChartSeries
+            {
+                Name = name,
+                Data = XAxisLabels
+                    .Select(label => data.TryGetValue(label, out var ts) ? Math.Round(ts.TotalMinutes, 1) : 0)
+                    .ToArray()
+            };
+            Series.Add(series);
+        }
+
+        UpdatePieChart();
+        StateHasChanged();
+    }
+
+    private void UpdatePieChart()
+    {
+        var projectTotals = Projects
+            .Select((p, i) => new { Project = p, Total = p.Elapsed.TotalMinutes, Index = i })
+            .Where(x => x.Total > 0)
+            .ToList();
+
+        PieChartSeries = new List<ChartSeries>
+        {
+            new ChartSeries
+            {
+                Name = "Minutes",
+                Data = projectTotals.Select(x => x.Total).ToArray()
+            }
+        };
+
+        ProjectNames = projectTotals.Select(x => x.Project.Name).ToArray();
+    }
+
+    private TimeSpan GetTotalTime() => Projects.Aggregate(TimeSpan.Zero, (sum, p) => sum + p.Elapsed);
+    private TimeSpan GetTodayTime() => Projects.Aggregate(TimeSpan.Zero, (sum, p) => sum + p.GetElapsedToday());
+    private TimeSpan GetThisWeekTime() => Projects.Aggregate(TimeSpan.Zero, (sum, p) => sum + p.GetElapsedThisWeek());
+    private TimeSpan GetThisMonthTime() => Projects.Aggregate(TimeSpan.Zero, (sum, p) => sum + p.GetElapsedThisMonth());
+
+    private string FormatTimeSpan(TimeSpan ts)
+    {
+        if (ts.TotalHours >= 1)
+            return ts.ToString(@"h\h\ mm\m");
+        return ts.ToString(@"mm\m\ ss\s");
+    }
+
+    private Task OnDateChanged(DateTime? newDate)
+    {
+        _date = newDate;
+        UpdateChart();
+        return Task.CompletedTask;
+    }
+
+    private Dictionary<string, TimeSpan> GetDailySummary(TimerProject project, DateTime selectedDate)
+    {
+        var date = selectedDate.Date;
+        var entries = project.Entries.Where(e => e.StartTime.Date == date && !e.IsBreak);
+        var total = entries.Aggregate(TimeSpan.Zero, (sum, e) => sum + e.Duration);
+
+        return new Dictionary<string, TimeSpan>
+        {
+            [date.ToShortDateString()] = total
+        };
+    }
+
+    private Dictionary<string, TimeSpan> GetWeeklySummary(TimerProject project)
+    {
+        return project.Entries
+            .Where(e => !e.IsBreak)
+            .GroupBy(e => e.StartTime.Date.AddDays(-(int)e.StartTime.Date.DayOfWeek).ToShortDateString())
+            .OrderBy(g => g.Key)
+            .ToDictionary(
+                g => g.Key,
+                g => g.Aggregate(TimeSpan.Zero, (sum, e) => sum + e.Duration));
+    }
+
+    private Dictionary<string, TimeSpan> GetMonthlySummary(TimerProject project)
+    {
+        return project.Entries
+            .Where(e => !e.IsBreak)
+            .GroupBy(e => e.StartTime.ToString("yyyy-MM"))
+            .OrderBy(g => g.Key)
+            .ToDictionary(
+                g => g.Key,
+                g => g.Aggregate(TimeSpan.Zero, (sum, e) => sum + e.Duration));
+    }
+
+    private void OnSelectedViewChanged(ViewMode view)
+    {
+        selectedView = view;
+        UpdateChart();
+    }
+
+    private List<(TimerProject Project, TimeSpan Time)> GetProjectDetails()
+    {
+        return Projects
+            .Where(p => p.Elapsed > TimeSpan.Zero)
+            .OrderByDescending(p => p.Elapsed)
+            .Select(p => (p, p.Elapsed))
+            .ToList();
+    }
+
+    private string GetProjectColor(TimerProject project)
+    {
+        var index = Projects.IndexOf(project);
+        return index >= 0 && index < _colors.Length ? _colors[index] : "#666";
+    }
 }
+

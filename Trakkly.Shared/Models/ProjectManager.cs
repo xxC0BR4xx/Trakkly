@@ -1,39 +1,29 @@
 using System.Text.Json;
 using Trakkly.Shared.Models;
-using Microsoft.Maui.Storage;
 
 public class ProjectManager
 {
-    private readonly string _filePath;
-
+    private readonly IProjectStorage _storage;
     public List<TimerProject> Projects { get; private set; } = new();
+    public bool IsInitialized { get; private set; } = false;
+    public event Action? OnProjectsChanged;
 
-    public ProjectManager()
+    public ProjectManager(IProjectStorage storage)
     {
-        _filePath = Path.Combine(FileSystem.AppDataDirectory, "projects.json");
+        _storage = storage;
     }
 
-    public async Task SaveProjectsAsync()
+    public async Task LoadAsync()
     {
-        var options = new JsonSerializerOptions
-        {
-            WriteIndented = true,
-            IncludeFields = true, // if you use public fields (rare)
-            PropertyNameCaseInsensitive = true
-        };
+        if (IsInitialized) return;
+        Projects = await _storage.LoadProjectsAsync();
+        IsInitialized = true;
+        OnProjectsChanged?.Invoke();
 
-        var json = JsonSerializer.Serialize(Projects, options);
-        await File.WriteAllTextAsync(_filePath, json);
     }
 
-    public async Task LoadProjectsAsync()
+    public async Task SaveAsync()
     {
-        if (File.Exists(_filePath))
-        {
-            var json = await File.ReadAllTextAsync(_filePath);
-            var data = JsonSerializer.Deserialize<List<TimerProject>>(json);
-            if (data != null)
-                Projects = data;
-        }
+        await _storage.SaveProjectsAsync(Projects);
     }
 }
